@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tip Calculator</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#667eea,#764ba2);
+        }
+
+        .container{
+            width:420px;
+            padding:30px;
+            background:rgba(255,255,255,0.15);
+            backdrop-filter:blur(10px);
+            border-radius:20px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.3);
+            color:white;
+            text-align:center;
+        }
+
+        h1{
+            margin-bottom:20px;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin:10px 0;
+            border:none;
+            border-radius:10px;
+            font-size:16px;
+        }
+
+        .slider-container{
+            margin:15px 0;
+        }
+
+        input[type="range"]{
+            width:100%;
+            cursor:pointer;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            background:#00c896;
+            color:white;
+            font-size:18px;
+            cursor:pointer;
+            margin-top:10px;
+        }
+
+        button:hover{
+            background:#00a67d;
+        }
+
+        .result{
+            margin-top:20px;
+            font-size:20px;
+            line-height:1.8;
+        }
+
+        #tipValue{
+            font-weight:bold;
+            color:#ffd166;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>💰 Tip Calculator</h1>
+
+    <input type="number" id="bill"
+           placeholder="Enter Bill Amount">
+
+    <div class="slider-container">
+        <label>
+            Tip Percentage:
+            <span id="tipValue">10%</span>
+        </label>
+
+        <input type="range"
+               id="tip"
+               min="0"
+               max="30"
+               value="10"
+               oninput="updateTip()">
+    </div>
+
+    <input type="number"
+           id="people"
+           placeholder="Number of People">
+
+    <button onclick="calculateTip()">
+        Calculate
+    </button>
+
+    <div class="result">
+        <p id="tipPerPerson"></p>
+        <p id="totalPerPerson"></p>
+    </div>
+
+</div>
+
+<script>
+
+function updateTip(){
+    document.getElementById("tipValue").innerHTML =
+    document.getElementById("tip").value + "%";
+}
+
+function calculateTip(){
+
+    let bill =
+    parseFloat(document.getElementById("bill").value);
+
+    let tipPercent =
+    parseFloat(document.getElementById("tip").value);
+
+    let people =
+    parseInt(document.getElementById("people").value);
+
+    let totalTip =
+    bill * tipPercent / 100;
+
+    let tipPerPerson =
+    totalTip / people;
+
+    let totalPerPerson =
+    (bill + totalTip) / people;
+
+    document.getElementById("tipPerPerson").innerHTML =
+    "Tip Per Person: ₹" +
+    tipPerPerson.toFixed(2);
+
+    document.getElementById("totalPerPerson").innerHTML =
+    "Total Per Person: ₹" +
+    totalPerPerson.toFixed(2);
+}
+
+</script>
+
+</body>
+</html>
