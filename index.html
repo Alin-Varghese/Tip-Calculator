@@ -1,161 +1,276 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tip Calculator</title>
 
     <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Segoe UI',sans-serif;
+        /* ─── Reset ─── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
         }
 
-        body{
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:linear-gradient(135deg,#667eea,#764ba2);
+        /* ─── Body with animated gradient ─── */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #259485, #68431c, #4facfe, #1b3e98);
+            background-size: 300% 300%;
+            animation: gradientShift 10s ease infinite;
+            padding: 20px;
         }
 
-        .container{
-            width:420px;
-            padding:30px;
-            background:rgba(255,255,255,0.15);
-            backdrop-filter:blur(10px);
-            border-radius:20px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.3);
-            color:white;
-            text-align:center;
+       
+        .container {
+             width: 640px;   /* or any larger value */
+             max-width: 100%;
         }
 
-        h1{
-            margin-bottom:20px;
+        /* ─── Title ─── */
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
         }
 
-        input{
-            width:100%;
-            padding:12px;
-            margin:10px 0;
-            border:none;
-            border-radius:10px;
-            font-size:16px;
+        /* ─── Input Fields ─── */
+        input[type="number"] {
+            width: 100%;
+            padding: 14px 18px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(4px);
+            color: #ffffff;
+            outline: 2px solid transparent;
+            transition: outline 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .slider-container{
-            margin:15px 0;
+        input[type="number"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
         }
 
-        input[type="range"]{
-            width:100%;
-            cursor:pointer;
+        input[type="number"]:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
         }
 
-        button{
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:10px;
-            background:#00c896;
-            color:white;
-            font-size:18px;
-            cursor:pointer;
-            margin-top:10px;
+        input[type="number"]::-webkit-inner-spin-button {
+            opacity: 0.4;
         }
 
-        button:hover{
-            background:#00a67d;
+        /* ─── Slider ─── */
+        .slider-container {
+            margin: 18px 0 10px 0;
         }
 
-        .result{
-            margin-top:20px;
-            font-size:20px;
-            line-height:1.8;
+        .slider-container label {
+            font-size: 18px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            display: block;
+            margin-bottom: 6px;
         }
 
-        #tipValue{
-            font-weight:bold;
-            color:#ffd166;
+        #tipValue {
+            font-weight: 700;
+            color: #ffd93d;
+            text-shadow: 0 0 20px rgba(255, 217, 61, 0.3);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            transition: background 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ffd93d;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 217, 61, 0.4);
+            transition: transform 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ffd93d;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px rgba(255, 217, 61, 0.4);
+        }
+
+        /* ─── Button ─── */
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #1a1a2e;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: transform 0.2s ease, box-shadow 0.25s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 30px rgba(67, 233, 123, 0.25);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(67, 233, 123, 0.40);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* ─── Results ─── */
+        .result {
+            margin-top: 22px;
+            font-size: 20px;
+            line-height: 2;
+        }
+
+        .result p {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .result p:last-child {
+            border-bottom: none;
+        }
+
+        #tipPerPerson {
+            color: #ffd93d;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(255, 217, 61, 0.15);
+        }
+
+        #totalPerPerson {
+            color: #7efff0;
+            font-weight: 700;
+            font-size: 24px;
+            text-shadow: 0 0 30px rgba(56, 249, 215, 0.15);
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            input[type="number"] {
+                padding: 12px 14px;
+                font-size: 15px;
+            }
+            .slider-container label {
+                font-size: 16px;
+            }
+            button {
+                font-size: 16px;
+                padding: 13px;
+            }
+            .result {
+                font-size: 18px;
+            }
+            #totalPerPerson {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
+        <h1>Tip Calculator</h1>
 
-    <h1>💰 Tip Calculator</h1>
+        <input type="number" id="bill" placeholder="Enter Bill Amount" />
 
-    <input type="number" id="bill"
-           placeholder="Enter Bill Amount">
+        <div class="slider-container">
+            <label>
+                Tip Percentage: <span id="tipValue">10%</span>
+            </label>
+            <input type="range" id="tip" min="0" max="30" value="10" oninput="updateTip()" />
+        </div>
 
-    <div class="slider-container">
-        <label>
-            Tip Percentage:
-            <span id="tipValue">10%</span>
-        </label>
+        <input type="number" id="people" placeholder="Number of People" />
 
-        <input type="range"
-               id="tip"
-               min="0"
-               max="30"
-               value="10"
-               oninput="updateTip()">
+        <button onclick="calculateTip()">Calculate</button>
+
+        <div class="result">
+            <p id="tipPerPerson"></p>
+            <p id="totalPerPerson"></p>
+        </div>
     </div>
 
-    <input type="number"
-           id="people"
-           placeholder="Number of People">
+    <script>
+        function updateTip() {
+            document.getElementById("tipValue").textContent =
+                document.getElementById("tip").value + "%";
+        }
 
-    <button onclick="calculateTip()">
-        Calculate
-    </button>
+        function calculateTip() {
+            const bill = parseFloat(document.getElementById("bill").value);
+            const tipPercent = parseFloat(document.getElementById("tip").value);
+            const people = parseInt(document.getElementById("people").value);
 
-    <div class="result">
-        <p id="tipPerPerson"></p>
-        <p id="totalPerPerson"></p>
-    </div>
+            // Validate inputs
+            if (isNaN(bill) || bill <= 0) {
+                document.getElementById("tipPerPerson").textContent = "⚠️ Please enter a valid bill amount";
+                document.getElementById("totalPerPerson").textContent = "";
+                return;
+            }
+            if (isNaN(people) || people <= 0) {
+                document.getElementById("tipPerPerson").textContent = "⚠️ Please enter a valid number of people";
+                document.getElementById("totalPerPerson").textContent = "";
+                return;
+            }
 
-</div>
+            const totalTip = bill * tipPercent / 100;
+            const tipPerPerson = totalTip / people;
+            const totalPerPerson = (bill + totalTip) / people;
 
-<script>
-
-function updateTip(){
-    document.getElementById("tipValue").innerHTML =
-    document.getElementById("tip").value + "%";
-}
-
-function calculateTip(){
-
-    let bill =
-    parseFloat(document.getElementById("bill").value);
-
-    let tipPercent =
-    parseFloat(document.getElementById("tip").value);
-
-    let people =
-    parseInt(document.getElementById("people").value);
-
-    let totalTip =
-    bill * tipPercent / 100;
-
-    let tipPerPerson =
-    totalTip / people;
-
-    let totalPerPerson =
-    (bill + totalTip) / people;
-
-    document.getElementById("tipPerPerson").innerHTML =
-    "Tip Per Person: ₹" +
-    tipPerPerson.toFixed(2);
-
-    document.getElementById("totalPerPerson").innerHTML =
-    "Total Per Person: ₹" +
-    totalPerPerson.toFixed(2);
-}
-
-</script>
+            document.getElementById("tipPerPerson").textContent =
+                "💵 Tip Per Person: ₹" + tipPerPerson.toFixed(2);
+            document.getElementById("totalPerPerson").textContent =
+                "🧾 Total Per Person: ₹" + totalPerPerson.toFixed(2);
+        }
+    </script>
 
 </body>
 </html>
